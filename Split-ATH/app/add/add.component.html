@@ -1,0 +1,230 @@
+<ActionBar title="Add Expense" class="action-bar">
+    <ActionItem (tap)="onSave()" ios.systemIcon="3" android.systemIcon="ic_menu_save"
+        ios.position="right">
+    </ActionItem>
+</ActionBar>
+
+<GridLayout rows="*" height="1500px">
+    <RadSideDrawer id="bottomDrawer" drawerContentSize="500" drawerLocation="Bottom">
+        <StackLayout tkDrawerContent class="bottom-drawer-content">
+            <FlexboxLayout flexDirection="row" class="category-drawer-item">
+                <Label text="Select Category" class="category-drawer__title"></Label>
+            </FlexboxLayout>
+            <FlexboxLayout flexDirection="row" class="category-drawer-item"
+                (tap)="selectCategory($event)" category="entertainmenty">
+                <Image src="~/Assets/icon-entertainment.png" class="category-icon-detail"></Image>
+                <Label text="Entertainment" class="category-drawer__text"></Label>
+            </FlexboxLayout>
+            <FlexboxLayout flexDirection="row" class="category-drawer-item"
+                (tap)="selectCategory($event)" category="food">
+                <Image src="~/Assets/food-and-beverage-category.png" class="category-icon-detail"></Image>
+                <Label text="Food & Beverage" class="category-drawer__text"></Label>
+            </FlexboxLayout>
+            <FlexboxLayout flexDirection="row" class="category-drawer-item"
+                (tap)="selectCategory($event)" category="shopping">
+                <Image src="~/Assets/icon-shopping.png" class="category-icon-detail"></Image>
+                <Label text="Shopping" class="category-drawer__text"></Label>
+            </FlexboxLayout>
+            <FlexboxLayout flexDirection="row" class="category-drawer-item"
+                (tap)="selectCategory($event)" category="transportation">
+                <Image src="~/Assets/transportation-category.png" class="category-icon-detail"></Image>
+                <Label text="Transportation" class="category-drawer__text"></Label>
+            </FlexboxLayout>
+            <FlexboxLayout flexDirection="row" class="category-drawer-item"
+                (tap)="selectCategory($event)" category="travel">
+                <Image src="~/Assets/travel-category.png" class="category-icon-detail"></Image>
+                <Label text="Travel" class="category-drawer__text"></Label>
+            </FlexboxLayout>
+            <FlexboxLayout flexDirection="row" class="category-drawer-item"
+                (tap)="selectCategory($event)" category="others">
+                <Image src="~/Assets/others-category.png" class="category-icon-detail"></Image>
+                <Label text="Others" class="category-drawer__text"></Label>
+            </FlexboxLayout>
+        </StackLayout>
+
+        <ScrollView tkMainContent id="scrollContainer">
+
+            <StackLayout width="100%" class="default-container">
+                <FlexboxLayout flexDirection="row" class="form-row">
+                    <Label text="Rp" class="price-detail"></Label>
+                    <TextField class="form-control price" hint="Input price here"
+                        flexGrow="1" keyboardType="number"></TextField>
+                </FlexboxLayout>
+                <FlexboxLayout flexDirection="row" class="form-row">
+                    <Image src="~/Assets/description-icon.png" class="form-icon"></Image>
+                    <TextField class="form-control" hint="Input title here"
+                        flexGrow="1"></TextField>
+                </FlexboxLayout>
+                <FlexboxLayout flexDirection="row" class="form-row">
+                    <Image id="selectCategoryIcon" src="~/Assets/food-and-beverage-category.png"
+                        class="form-icon category"></Image>
+                    <Label id="selectCategoryText" class="form-control" text="Select category"
+                        flexGrow="1" (tap)="openDrawer()"></Label>
+                </FlexboxLayout>
+                <FlexboxLayout flexDirection="row" class="form-row">
+                    <Image src="~/Assets/date-icon.png" class="form-icon"></Image>
+                    <TextField class="form-control" hint="Input date here"
+                        flexGrow="1" keyboardType="dateTime"></TextField>
+                </FlexboxLayout>
+                <StackLayout orientation="vertical" class="detail-section">
+                    <Label text="For you and" class="detail-section__title"
+                        marginBottom="0"></Label>
+                    <StackLayout class="stack-layout">
+
+                        <RadAutoCompleteTextView #autocomplete [items]="dataItems"
+                            completionMode="StartsWith" suggestMode="Suggest"
+                            displayMode="Tokens" hint="Enter Names"
+                            textChanged="onTextChanged()" didAutoComplete="onDidAutoComplete()"
+                            tokenRemoved="onTokenRemoved()">
+                            <SuggestionView tkAutoCompleteSuggestionView
+                                height="300">
+                                <ng-template tkSuggestionItemTemplate
+                                    let-item="item">
+                                    <FlexboxLayout flexDirection="row" class="suggestion-item">
+                                        <Image src="{{ item.image }}" width="40"></Image>
+                                        <Label text="{{ item.text }}"
+                                            marginLeft="10" flexGrow="1"></Label>
+                                    </FlexboxLayout>
+                                </ng-template>
+                            </SuggestionView>
+                        </RadAutoCompleteTextView>
+
+
+                    </StackLayout>
+                    <StackLayout class="hr-light">
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout orientation="vertical" class="detail-section">
+                    <Label text="Paid by" class="detail-section__title"></Label>
+                    <FlexboxLayout flexDirection="row" id="paidByContainer">
+                        <StackLayout verticalAlignment="top" orientation="vertical"
+                            marginRight="10">
+                            <Image src="~/Assets/me.png" class="detail-photo no-margin"></Image>
+                            <Label text="You" textAlignment="center" class="owe-name"></Label>
+                        </StackLayout>
+                        <StackLayout verticalAlignment="top" orientation="vertical"
+                            marginRight="10" id="paidByAshley" class="hide">
+                            <Image src="~/Assets/ashley.png" class="detail-photo no-margin"></Image>
+                            <Label text="Ashley" textAlignment="center" class="owe-name"></Label>
+                        </StackLayout>
+                        <StackLayout verticalAlignment="top" orientation="vertical"
+                            marginRight="10" id="paidByYura" class="hide">
+                            <Image src="~/Assets/yura.png" class="detail-photo no-margin"></Image>
+                            <Label text="Yura" textAlignment="center" class="owe-name"></Label>
+                        </StackLayout>
+                        <StackLayout verticalAlignment="top" orientation="vertical"
+                            marginRight="10" id="paidByBrian" class="hide">
+                            <Image src="~/Assets/brian.png" class="detail-photo no-margin"></Image>
+                            <Label text="Brian" textAlignment="center" class="owe-name"></Label>
+                        </StackLayout>
+                        <StackLayout verticalAlignment="top" orientation="vertical"
+                            marginRight="10" id="paidByRick" class="hide">
+                            <Image src="~/Assets/rick.png" class="detail-photo no-margin"></Image>
+                            <Label text="Rick" textAlignment="center" class="owe-name"></Label>
+                        </StackLayout>
+                    </FlexboxLayout>
+                    <FlexboxLayout flexDirection="row" class="form-row">
+                        <Image src="~/Assets/me.png" class="detail-photo"></Image>
+                        <Label text="You" flexGrow="1"></Label>
+                        <Label text="Rp"></Label>
+                        <TextField class="form-control split-price"
+                            keyboardType="number"></TextField>
+                    </FlexboxLayout>
+                    <FlexboxLayout flexDirection="row" class="form-row hide-opacity"
+                        id="paidByAshleyValue">
+                        <Image src="~/Assets/ashley.png" class="detail-photo"></Image>
+                        <Label text="Ashley" flexGrow="1"></Label>
+                        <Label text="Rp"></Label>
+                        <TextField class="form-control split-price"
+                            keyboardType="number"></TextField>
+                    </FlexboxLayout>
+                    <FlexboxLayout flexDirection="row" class="form-row hide-opacity"
+                        id="paidByYuraValue">
+                        <Image src="~/Assets/yura.png" class="detail-photo"></Image>
+                        <Label text="Yura" flexGrow="1"></Label>
+                        <Label text="Rp"></Label>
+                        <TextField class="form-control split-price"
+                            keyboardType="number"></TextField>
+                    </FlexboxLayout>
+                    <FlexboxLayout flexDirection="row" class="form-row hide-opacity"
+                        id="paidByRickValue">
+                        <Image src="~/Assets/rick.png" class="detail-photo"></Image>
+                        <Label text="Rick" flexGrow="1"></Label>
+                        <Label text="Rp"></Label>
+                        <TextField class="form-control split-price"
+                            keyboardType="number"></TextField>
+                    </FlexboxLayout>
+                    <FlexboxLayout flexDirection="row" class="form-row hide-opacity"
+                        id="paidByBrianValue">
+                        <Image src="~/Assets/brian.png" class="detail-photo"></Image>
+                        <Label text="Brian" flexGrow="1"></Label>
+                        <Label text="Rp"></Label>
+                        <TextField class="form-control split-price"
+                            keyboardType="number"></TextField>
+                    </FlexboxLayout>
+                </StackLayout>
+                <StackLayout orientation="vertical" class="detail-section">
+                    <FlexboxLayout flexDirection="row" class="form-row">
+                        <Label text="Split between You and " class="detail-section__title"></Label>
+                        <Label id="splitCount" text="0" class="detail-section__title"></Label>
+                        <Label text=" more" class="detail-section__title"></Label>
+                    </FlexboxLayout>
+                    <StackLayout orientation="vertical">
+                        <FlexboxLayout flexDirection="row" class="form-row">
+                            <Image src="~/Assets/me.png" class="detail-photo"></Image>
+                            <Label text="You" flexGrow="1"></Label>
+                            <Label text="Rp"></Label>
+                            <TextField class="form-control split-price"
+                                keyboardType="number"></TextField>
+                        </FlexboxLayout>
+                        <FlexboxLayout flexDirection="row" class="form-row hide-opacity"
+                            id="splitAshley">
+                            <Image src="~/Assets/ashley.png" class="detail-photo"></Image>
+                            <Label text="Ashley" flexGrow="1"></Label>
+                            <Label text="Rp"></Label>
+                            <TextField class="form-control split-price"
+                                keyboardType="number"></TextField>
+                        </FlexboxLayout>
+                        <FlexboxLayout flexDirection="row" class="form-row hide-opacity"
+                            id="splitYura">
+                            <Image src="~/Assets/yura.png" class="detail-photo"></Image>
+                            <Label text="Yura" flexGrow="1"></Label>
+                            <Label text="Rp"></Label>
+                            <TextField class="form-control split-price"
+                                keyboardType="number"></TextField>
+                        </FlexboxLayout>
+                        <FlexboxLayout flexDirection="row" class="form-row hide-opacity"
+                            id="splitRick">
+                            <Image src="~/Assets/rick.png" class="detail-photo"></Image>
+                            <Label text="Rick" flexGrow="1"></Label>
+                            <Label text="Rp"></Label>
+                            <TextField class="form-control split-price"
+                                keyboardType="number"></TextField>
+                        </FlexboxLayout>
+                        <FlexboxLayout flexDirection="row" class="form-row hide-opacity"
+                            id="splitBrian">
+                            <Image src="~/Assets/brian.png" class="detail-photo"></Image>
+                            <Label text="Brian" flexGrow="1"></Label>
+                            <Label text="Rp"></Label>
+                            <TextField class="form-control split-price"
+                                keyboardType="number"></TextField>
+                        </FlexboxLayout>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout orientation="vertical" class="detail-section">
+                    <FlexboxLayout flexDirection="row" class="form-row">
+                        <Image src="~/Assets/attachment-icon.png" class="form-icon"></Image>
+                        <Label class="form-control" text="Add attachment"
+                            flexGrow="1" (tap)="addAttachment()"></Label>
+                    </FlexboxLayout>
+                    <FlexboxLayout flexDirection="row" class="form-row">
+                        <Image src="~/Assets/notes-icon.png" class="form-icon"></Image>
+                        <TextField class="form-control" hint="Add notes"
+                            flexGrow="1"></TextField>
+                    </FlexboxLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+
+    </RadSideDrawer>
+</GridLayout>
